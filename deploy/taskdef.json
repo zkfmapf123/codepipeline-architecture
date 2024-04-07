@@ -18,7 +18,9 @@
           "value": "3000"
         }
       ],
-      "essential": true
+      "essential": true,
+      "executionRoleArn" : "arn:aws:iam::182024812696:role/ecs-execution-role",
+      "taskRoleArn":"arn:aws:iam::182024812696:role/ecs-execution-role"
     }
   ]
 }

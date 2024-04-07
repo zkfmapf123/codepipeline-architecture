@@ -153,6 +153,7 @@ post_build:
     commands:
       - cd ..
       - REVISON=$(aws ecs describe-task-definition --task-definition arn:aws:ecs:ap-northeast-2:182024812696:task-definition/test-service-container-family | jq -r '.taskDefinition.revision')
+      - REVISON=$((REVISON + 1)) ## 개정을 하나 올려줌...
       - echo "REVISION >> $REVISON"
       - sed -i 's/${REVISON}/'"$REVISON"'/g' deploy/appspec.yml
       - cat ./deploy/appspec.yml
