@@ -106,6 +106,11 @@
         - "deploy/*"
     ```
 
+## 3. 주의사항
+
+- appspec.yml, taskdef.json 파일의 세부 Parameter를 꼼꼼하게 작성해야 함 (에러남)
+- appspec.yml의 taskArn의 경우 현재 Family Revision + 1로 작성해야 에러가 안난다
+- Policy 정리를 잘해야 한다 (현재는 최대한 열어놓은 상태임)
 
 ## 귀찮아서 안한거..
 
