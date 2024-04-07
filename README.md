@@ -85,7 +85,7 @@
 - 참고사항
     - GitHub Connect은 연결하여야 한다
     - CodePipelin.Build 테라폼 빡세다
-    - deploy 폴더안에 task_definition.json, appspec.yml 을 위치해야 Build Artifacts를 통해서 CodeDeploy가 배포됨
+    - deploy 폴더안에 task_definition.json, AppSpec.yml 을 위치해야 Build Artifacts를 통해서 CodeDeploy가 배포됨
     - <b>BuildArtifacts에 구성파일만 존재하면 CodeDeploy는 쉽게 진행됨</b>
 
     ```yml
@@ -107,7 +107,8 @@
 - Terraform Cloud를 붙힌다면 더더욱 좋을듯 함
 - IAM Policy의 Resource는 개별로 지정하는 것이 좋음
 - Task Definition, AppSpec 내의 Docker versioning은 추후에 진행해보자...
-- CodeGuru Service가 Seoul Region에 들어오면 Security Scanning, Reviewer 구성해볼 예정
+- Terrform이 다 구성되고, task_definition, AppSpec 을 자동으로 만들어주게끔 중간에 CLI를 만들어보는것도 좋을듯
+- <b>CodeGuru Service가 Seoul Region에 들어오면 Security Scanning, Reviewer 구성해볼 예정</b>
 
 ## Reference
 
