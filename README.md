@@ -116,11 +116,17 @@
 
 ## 이슈모음
 
-- CodePipeline 
+### CodeDeployToECS
 
 ```
 Deployment d-X1IRUVC7H외부 링크 failed. Error code: ECS_UPDATE_ERROR; Error message: The ECS service cannot be updated due to an unexpected error: Invalid revision number. Number: latest (Service: AmazonECS; Status Code: 400; Error Code: InvalidParameterException; Request ID: 380efecf-408c-43bb-9aaf-908912e8059a; Proxy: null). Check your ECS service status
 ```
+
+- ECS Service 업데이트 시, Image가 잘못되어있었음
+- ECR Registry 의 주소를 제대로 적어주자
+- 그리고 latest가 아닌 VERSION을 명시해야 함
+
+
 
 ## Reference
 
