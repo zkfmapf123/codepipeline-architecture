@@ -77,6 +77,9 @@
     ## Reference Terraform files
     infra/code-pipeline.tf
     infra/ecs-iam.tf
+
+    ## buildspec 업데이트
+    make spec-update
 ```
 
 ![2](./public/2.png)
@@ -141,6 +144,14 @@ Deployment d-RT7QSJLJ4외부 링크 failed. Error code: ECS_UPDATE_ERROR; Error 
 ```
 
 - CodeDeploy 전, TaskDefinition이 등록이 안되어있음
+
+```yml
+post_build:
+    commands:
+      - cd ..
+      - aws ecs register-task-definition --cli-input-json file://deploy/taskdef.json
+      - ls -lah ./deploy
+```
 
 
 ## Reference

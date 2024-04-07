@@ -223,7 +223,8 @@ resource "aws_iam_policy" "codebuild_policy" {
           "codebuild:CreateReport",
           "codebuild:UpdateReport",
           "codebuild:BatchPutTestCases",
-          "codebuild:BatchPutCodeCoverages"
+          "codebuild:BatchPutCodeCoverages",
+          "ecs:RegisterTaskDefinition"
         ],
         "Resource" : "*"
       }

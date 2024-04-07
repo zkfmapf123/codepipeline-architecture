@@ -11,16 +11,15 @@ phases:
     
   build:
     commands:
-      - cd server
       - aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $AWS_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com
-      - docker build -t ecr_repository .
+      - cd server && docker build -t ecr_repository .
       - docker tag ecr_repository:latest $AWS_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_repository:1
       - docker push $AWS_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_repository:1
-      - aws ecs register-task-definition --cli-input-json file://taskdef.json
     
   post_build:
     commands:
       - cd ..
+      - aws ecs register-task-definition --cli-input-json file://deploy/taskdef.json
       - ls -lah ./deploy
 
 artifacts:
