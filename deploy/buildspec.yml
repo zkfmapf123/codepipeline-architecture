@@ -1,6 +1,6 @@
 version: 0.2
 
-git-credential-helper: no | yes
+# git-credential-helper: no | yes
 # env:
 #   shell: shell-tag
 #   variables:

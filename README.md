@@ -84,8 +84,7 @@
 
 - 참고사항
     - GitHub Connect은 연결하여야 한다
-    - CodePipeline의 V1->V2 로 수정하는 부분은 Console에서 직접진행
-    - 
+    - CodePipelin.Build 테라폼 빡세다
 
 
 

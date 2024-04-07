@@ -67,8 +67,12 @@ resource "aws_codebuild_project" "build-project" {
   }
 
   cache {
-    modes = []
-    type  = "NO_CACHE"
+    modes = [
+      "LOCAL_DOCKER_LAYER_CACHE",
+      "LOCAL_SOURCE_CACHE",
+      "LOCAL_CUSTOM_CACHE"
+    ]
+    type = "LOCAL"
   }
 
   source {
@@ -107,14 +111,15 @@ resource "aws_codebuild_project" "build-project" {
 }
 
 
-##########################################################
-### Code Pipeline 
-##########################################################
+#########################################################
+## Code Pipeline 
+#########################################################
 resource "aws_codepipeline" "codepipeline" {
   depends_on = [aws_kms_key.s3kmskey, aws_codebuild_project.build-project]
 
-  name     = "ecs-pipeline"
-  role_arn = aws_iam_role.codepipeline_role.arn
+  name          = "ecs-pipeline"
+  role_arn      = aws_iam_role.codepipeline_role.arn
+  pipeline_type = "V2"
 
   artifact_store {
     location = aws_s3_bucket.codepipeline_bucket.bucket
@@ -158,7 +163,7 @@ resource "aws_codepipeline" "codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = "aa"
+        ProjectName = aws_codebuild_project.build-project.name
       }
     }
   }
