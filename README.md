@@ -147,6 +147,7 @@ The ECS service cannot be updated due to an unexpected error: TaskDefinition is 
 - AppSpec.yml 파일에 TaskDefinition을 올바르게 수정하자
 - TaskDefinition의 Revision을 가공해서 sed 명령어로 수정
 - 그 과정에서 "ecs:DescribeTaskDefinition" Policy가 추가됨
+- <b>TaskDefinition.json에 ExecutionRole도 추가해야함</b>
 
 ```yml
 post_build:
@@ -158,6 +159,55 @@ post_build:
       - sed -i 's/${REVISON}/'"$REVISON"'/g' deploy/appspec.yml
       - cat ./deploy/appspec.yml
       - ls -lah ./deploy
+```
+
+### CodeDeployToECS (TaskExecutionRole)
+
+- taskexecutionRole의 정책이 부족함
+- 몇가지 더 채워넣음
+
+```
+resource "aws_iam_policy" "ecs_task_policy" {
+  name = "ecs-execution-list"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "ecs:Describe*",
+          "ecs:List*",
+          "ecs:RunTask",
+          "ecs:StopTask",
+          "logs:DescribeLogGroups",
+          "logs:DescribeLogStreams",
+          "logs:CreateLogGroup", ## Log Group...
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+        ]
+        Effect = "Allow"
+        Resource = [
+          "*"
+        ]
+      },
+      {
+        "Effect" : "Allow",
+        "Resource" : "*",
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:GetObjectVersion",
+          "s3:GetBucketAcl",
+          "s3:GetBucketLocation"
+        ]
+      }
+    ]
+  })
+}
 ```
 
 

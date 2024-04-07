@@ -32,6 +32,7 @@ resource "aws_iam_policy" "ecs_task_policy" {
           "ecs:Describe*",
           "ecs:List*",
           "ecs:RunTask",
+          "ecs:StopTask",
           "logs:DescribeLogGroups",
           "logs:DescribeLogStreams",
           "logs:CreateLogGroup", ## Log Group...
@@ -47,6 +48,17 @@ resource "aws_iam_policy" "ecs_task_policy" {
           "*"
         ]
       },
+      {
+        "Effect" : "Allow",
+        "Resource" : "*",
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:GetObjectVersion",
+          "s3:GetBucketAcl",
+          "s3:GetBucketLocation"
+        ]
+      }
     ]
   })
 }
