@@ -145,13 +145,17 @@ The ECS service cannot be updated due to an unexpected error: TaskDefinition is 
 
 - Service가 실행하는 Task와 CodeDeploy가 실행하는 Task의 값이 달라서 발생하는 문제
 - AppSpec.yml 파일에 TaskDefinition을 올바르게 수정하자
-
+- TaskDefinition의 Revision을 가공해서 sed 명령어로 수정
+- 그 과정에서 "ecs:DescribeTaskDefinition" Policy가 추가됨
 
 ```yml
 post_build:
     commands:
       - cd ..
-      - aws ecs register-task-definition --cli-input-json file://deploy/taskdef.json
+      - REVISON=$(aws ecs describe-task-definition --task-definition arn:aws:ecs:ap-northeast-2:182024812696:task-definition/test-service-container-family | jq -r '.taskDefinition.revision')
+      - echo "REVISION >> $REVISON"
+      - sed -i 's/${REVISON}/'"$REVISON"'/g' deploy/appspec.yml
+      - cat ./deploy/appspec.yml
       - ls -lah ./deploy
 ```
 

@@ -11,8 +11,9 @@ phases:
     
   build:
     commands:
+      - cd server
       - aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $AWS_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com
-      - cd server && docker build -t ecr_repository .
+      - docker build -t ecr_repository .
       - docker tag ecr_repository:latest $AWS_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_repository:1
       - docker push $AWS_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_repository:1
     
@@ -21,7 +22,7 @@ phases:
       - cd ..
       - REVISON=$(aws ecs describe-task-definition --task-definition arn:aws:ecs:ap-northeast-2:182024812696:task-definition/test-service-container-family | jq -r '.taskDefinition.revision')
       - echo "REVISION >> $REVISON"
-      - sed -i 's/${REVISON}/"$REVISON"' ./deploy/appspec.yml
+      - sed -i 's/${REVISON}/'"$REVISON"'/g' deploy/appspec.yml
       - cat ./deploy/appspec.yml
       - ls -lah ./deploy
 
