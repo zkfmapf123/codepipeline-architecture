@@ -6,12 +6,9 @@ ENV NODE_ENV production
 
 
 WORKDIR /usr/src/app
-RUN COPY package*.json .
-RUN . .
+COPY package*.json .
 
 RUN npm ci --omit=dev
-
-USER node
 COPY . .        
 
 EXPOSE 3000
