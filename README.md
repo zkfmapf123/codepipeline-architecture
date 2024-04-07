@@ -114,6 +114,14 @@
 - <b>CodeGuru Service가 Seoul Region에 들어오면 Security Scanning, Reviewer 구성해볼 예정</b>
 - 운동해야되서 AWS Chatbot은 못붙힘 (쉬움)
 
+## 이슈모음
+
+- CodePipeline 
+
+```
+Deployment d-X1IRUVC7H외부 링크 failed. Error code: ECS_UPDATE_ERROR; Error message: The ECS service cannot be updated due to an unexpected error: Invalid revision number. Number: latest (Service: AmazonECS; Status Code: 400; Error Code: InvalidParameterException; Request ID: 380efecf-408c-43bb-9aaf-908912e8059a; Proxy: null). Check your ECS service status
+```
+
 ## Reference
 
 - <a href="https://repost.aws/questions/QU6quBySm3Tmqv1UixHTVRZw/listener-requirements-for-codedeploy-blue-green-deployments"> Blue/Green Target Group Issue </a>
