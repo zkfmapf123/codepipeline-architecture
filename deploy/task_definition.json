@@ -1,0 +1,22 @@
+{
+  "family": "test-service-container-family",
+  "containerDefinitions": [
+    {
+      "name": "test-service-container",
+      "image": "182024812696.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_repository",
+      "cpu": 256,
+      "memory": 512,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000
+        }
+      ],
+      "environment": {
+        "name": "PORT",
+        "value": "3000"
+      },
+      "essential": true
+    }
+  ]
+}

@@ -7,23 +7,23 @@ phases:
     # runtime-versions: ## CI를 Build 내에서 한다면 구성하는게 좋음
     #   nodejs: 20
     commands:
-      - ls -al
       - AWS_ACCOUNT=$(echo $CODEBUILD_BUILD_ARN | awk -F':' '{print $5}')
     
   build:
     commands:
       - aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $AWS_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com
-      - docker build -t ecr_repository -f server/Dockerfile .
+      - cd server && docker build -t ecr_repository .
       - docker tag ecr_repository:latest $AWS_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_repository:latest
       - docker push $AWS_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_repository:latest
     
   post_build:
     commands:
-      - ls -lah ./infrastructure
+      - cd ..
+      - ls -lah ./deploy
 
 artifacts:
   files:
-    - "infrastructure/*"
+    - "deploy/*"
   
 cache:
   paths:

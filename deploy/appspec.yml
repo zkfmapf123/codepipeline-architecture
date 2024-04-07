@@ -1,0 +1,15 @@
+applicationName: "ecs-codedeploy"
+deploymentGroupName: "ecs-dep-group"
+revision:
+  revisionType: AppSpecContent
+  appSpecContent:
+    content: |
+      version: 0
+      Resources:
+        - TargetService:
+            Type: AWS::ECS::Service
+            Properties:
+              TaskDefinition: "arn:aws:ecs:ap-northeast-2:182024812696:task-definition/test-service-container-family:latest"
+              LoadBalancerInfo:
+                ContainerName: "test-service-container"
+                ContainerPort: 3000
