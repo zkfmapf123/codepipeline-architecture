@@ -49,8 +49,27 @@ resource "aws_lb" "ecs_alb" {
 #############################################################################
 ## ALB Target Group
 #############################################################################
-resource "aws_lb_target_group" "ecs_tg" {
-  name                 = "ecs-tg"
+resource "aws_lb_target_group" "ecs_tg_blue" {
+  name                 = "ecs-blue-tg"
+  port                 = 80
+  protocol             = "HTTP"
+  target_type          = "ip"
+  vpc_id               = module.codepipeline-vpc.vpc.vpc_id
+  deregistration_delay = 10 // 이거때문에 배포시간 늦어짐 ... Default 300 적절하게 수정
+
+  health_check {
+    path                = "/health"
+    protocol            = "HTTP"
+    port                = "3001"
+    interval            = 30
+    timeout             = 5
+    unhealthy_threshold = 2
+    healthy_threshold   = 2
+  }
+}
+
+resource "aws_lb_target_group" "ecs_tg_green" {
+  name                 = "ecs-green-tg"
   port                 = 80
   protocol             = "HTTP"
   target_type          = "ip"
@@ -78,6 +97,6 @@ resource "aws_lb_listener" "ecs_80" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.ecs_tg.arn
+    target_group_arn = aws_lb_target_group.ecs_tg_green.arn
   }
 }
