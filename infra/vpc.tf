@@ -29,3 +29,7 @@ module "codepipeline-vpc" {
     codepipeline_is_enable = true
   }
 }
+
+output "vpc" {
+  value = module.codepipeline-vpc
+}

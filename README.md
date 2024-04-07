@@ -2,6 +2,15 @@
 
 ![1](./public/1.png)
 
+## Folder Architecture
+
+```sh
+
+    |- infra        ## infra use Terraform 
+    |- server       ## server side application (express)
+    |- deploy       ## deploy files (task-definition.json, appspec.yml)
+```
+
 ## CodePipeline 구축 Terraform 
 
 ```sh
@@ -23,10 +32,9 @@
 
 ### ECS Fargate 
 
-- <a href="https://aws.github.io/copilot-cli/">Copilot CLI 활용</a>
-
 ```sh
-
+    ## server 
+    server/index.js
 ```
 
 - ECR (Register)
