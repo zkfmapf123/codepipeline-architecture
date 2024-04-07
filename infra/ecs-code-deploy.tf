@@ -3,12 +3,11 @@ resource "aws_codedeploy_app" "code-deploy-app" {
   compute_platform = "ECS"
   name             = "ecs-codedeploy"
 }
-
 resource "aws_codedeploy_deployment_group" "ecs-codedeploy-group" {
 
   app_name               = aws_codedeploy_app.code-deploy-app.name
   deployment_group_name  = "ecs-dep-group"
-  deployment_config_name = "ecs-dep-config"
+  deployment_config_name = "CodeDeployDefault.ECSAllAtOnce" ## 배포옵션
   service_role_arn       = aws_iam_role.ecs_code_deploy.arn
 
   blue_green_deployment_config {

@@ -13,6 +13,10 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 
 USER node
 COPY . .
+
 EXPOSE 3000
+
+ENV PORT=3000
+ENV VER=1
 
 CMD ["node index.js"]

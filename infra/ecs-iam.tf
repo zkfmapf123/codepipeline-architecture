@@ -21,11 +21,37 @@ resource "aws_iam_role" "ecs_task_role" {
   })
 }
 
+resource "aws_iam_policy" "ecs_task_policy" {
+  name = "ecs-execution-list"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "ecs:Describe*",
+          "ecs:List*",
+          "ecs:RunTask"
+        ]
+        Effect = "Allow"
+        Resource = [
+          "*"
+        ]
+      },
+    ]
+  })
+}
+
 resource "aws_iam_role_policy_attachment" "ecs_task_policy_attach" {
   for_each = data.aws_iam_policy.ecs_task_execution
 
   role       = aws_iam_role.ecs_task_role.name
   policy_arn = each.value.arn
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_policy_attach_2" {
+  role       = aws_iam_role.ecs_task_role.name
+  policy_arn = aws_iam_policy.ecs_task_policy.arn
 }
 
 #####################################################################

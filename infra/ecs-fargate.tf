@@ -34,10 +34,14 @@ resource "aws_ecs_cluster_capacity_providers" "ecs_cluster_capacity" {
 # 추후 CD 배포는 CodePipeline으로 진행하기 때문에 Lifecycle 옵션을 사용해서 무시합니다
 # #############################################################################
 resource "aws_ecs_task_definition" "ecs_task" {
-  family = "ecs-task"
+  family = "test-service-container-family"
+
+  cpu    = 256
+  memory = 512
+
   container_definitions = jsonencode([
     {
-      name      = "ecs-task-container"
+      name      = "test-service-container"
       image     = "zkfmapf123/healthcheck:latest"
       cpu       = 256
       memory    = 512
@@ -67,9 +71,10 @@ resource "aws_ecs_task_definition" "ecs_task" {
     }
   ])
 
+  execution_role_arn       = aws_iam_role.ecs_task_role.arn
+  task_role_arn            = aws_iam_role.ecs_task_role.arn
   network_mode             = "awsvpc" ## Only FARGATE
   requires_compatibilities = ["FARGATE"]
-  execution_role_arn       = aws_iam_role.ecs_task_role.arn
 
   lifecycle {
     ignore_changes = [container_definitions]
@@ -104,12 +109,11 @@ resource "aws_security_group" "ecs_sg" {
 }
 
 resource "aws_ecs_service" "ecs_service" {
+  launch_type            = "FARGATE"
   name                   = "test-service-container"
   cluster                = aws_ecs_cluster.ecs_cluster.id
   task_definition        = aws_ecs_task_definition.ecs_task.arn
   desired_count          = 1
-  iam_role               = aws_iam_role.ecs_task_role.arn
-  depends_on             = [aws_iam_role.ecs_task_role]
   enable_execute_command = true
 
   network_configuration {
@@ -135,6 +139,8 @@ resource "aws_ecs_service" "ecs_service" {
       task_definition
     ]
   }
+
+  depends_on = [aws_iam_role.ecs_task_role]
 }
 
 
