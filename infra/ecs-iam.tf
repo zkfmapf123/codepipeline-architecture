@@ -31,7 +31,16 @@ resource "aws_iam_policy" "ecs_task_policy" {
         Action = [
           "ecs:Describe*",
           "ecs:List*",
-          "ecs:RunTask"
+          "ecs:RunTask",
+          "logs:DescribeLogGroups",
+          "logs:DescribeLogStreams",
+          "logs:CreateLogGroup", ## Log Group...
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
         ]
         Effect = "Allow"
         Resource = [
@@ -96,13 +105,32 @@ resource "aws_iam_policy" "ecs_code_deploy_list" {
     Statement = [
       {
         Action = [
-          "ecs:Describe*",
+          "ecs:UpdateServicePrimaryTaskSet",
+          "ecs:DescribeServices",
+          "ecs:DeleteTaskSet",
+          "ecs:Create*",
+          "elasticloadbalancing:*",
         ]
         Effect = "Allow"
         Resource = [
           "*"
         ]
       },
+    ]
+  })
+}
+
+resource "aws_iam_policy" "ecs_code_deploy_pass_role" {
+  name = "ecs_code_deploy_pass_role"
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : "iam:PassRole",
+        "Resource" : "*"
+      }
     ]
   })
 }
@@ -116,6 +144,11 @@ resource "aws_iam_role_policy_attachment" "ecs_codedeploy_policy_attach_1" {
 
 resource "aws_iam_role_policy_attachment" "ecs_codedeploy_policy_attach_2" {
 
+  for_each = { for k, v in [aws_iam_policy.ecs_code_deploy_list, aws_iam_policy.ecs_code_deploy_pass_role] :
+    k => v
+  }
+
+
   role       = aws_iam_role.ecs_code_deploy.name
-  policy_arn = aws_iam_policy.ecs_code_deploy_list.arn
+  policy_arn = each.value.arn
 }

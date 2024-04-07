@@ -46,7 +46,10 @@ resource "aws_ecs_task_definition" "ecs_task" {
       cpu       = 256
       memory    = 512
       essential = true,
-      environments = [
+
+      ## environments X 
+      ## environment O
+      environment = [
         {
           name  = "PORT",
           value = "3000"
@@ -57,7 +60,7 @@ resource "aws_ecs_task_definition" "ecs_task" {
           containerPort = 3000
           hostPort      = 3000
           protocol      = "tcp"
-        }
+        },
       ],
       logConfiguration = {
         logDriver = "awslogs"
@@ -118,7 +121,7 @@ resource "aws_ecs_service" "ecs_service" {
 
   network_configuration {
     assign_public_ip = false
-    subnets          = values(module.codepipeline-vpc.vpc.db_subnets)
+    subnets          = values(module.codepipeline-vpc.vpc.was_subnets)
     security_groups  = [aws_security_group.ecs_sg.id]
   }
 

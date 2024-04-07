@@ -37,7 +37,7 @@ resource "aws_lb" "ecs_alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
-  subnets            = values(module.codepipeline-vpc.vpc.webserver_subnets)
+  subnets            = values(module.codepipeline-vpc.vpc.was_subnets) ## Private Subnets
 
   enable_deletion_protection = false
 
@@ -51,7 +51,7 @@ resource "aws_lb" "ecs_alb" {
 #############################################################################
 resource "aws_lb_target_group" "ecs_tg_blue" {
   name                 = "ecs-blue-tg"
-  port                 = 80
+  port                 = 3000 ## ECS Port
   protocol             = "HTTP"
   target_type          = "ip"
   vpc_id               = module.codepipeline-vpc.vpc.vpc_id
@@ -60,7 +60,7 @@ resource "aws_lb_target_group" "ecs_tg_blue" {
   health_check {
     path                = "/health"
     protocol            = "HTTP"
-    port                = "3001"
+    port                = "3000"
     interval            = 30
     timeout             = 5
     unhealthy_threshold = 2
@@ -70,7 +70,7 @@ resource "aws_lb_target_group" "ecs_tg_blue" {
 
 resource "aws_lb_target_group" "ecs_tg_green" {
   name                 = "ecs-green-tg"
-  port                 = 80
+  port                 = 3000 ## ECS Port
   protocol             = "HTTP"
   target_type          = "ip"
   vpc_id               = module.codepipeline-vpc.vpc.vpc_id

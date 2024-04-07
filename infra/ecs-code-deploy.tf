@@ -55,7 +55,4 @@ resource "aws_codedeploy_deployment_group" "ecs-codedeploy-group" {
       }
     }
   }
-
-
-
 }
