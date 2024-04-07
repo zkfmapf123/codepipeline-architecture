@@ -147,7 +147,7 @@ The ECS service cannot be updated due to an unexpected error: TaskDefinition is 
 - AppSpec.yml 파일에 TaskDefinition을 올바르게 수정하자
 - TaskDefinition의 Revision을 가공해서 sed 명령어로 수정
 - 그 과정에서 "ecs:DescribeTaskDefinition" Policy가 추가됨
-- <b>TaskDefinition.json에 ExecutionRole도 추가해야함</b>
+- <b>TaskDefinition.json에 ExecutionRole도 추가해야함 (위치중요) </b>
 
 ```yml
 post_build:
