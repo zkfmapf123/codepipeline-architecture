@@ -7,7 +7,7 @@ const app = express()
 
 app.get("/", (req, res) => res.status(200).send("hello world"))
     .get("/health", (req, res) => res.status(200))
-    .get("/name", (req, res) => res.status(200).send(`hello version:${VER}`))
+    .get("/name", (req, res) => res.status(200).send(`hello version:2`))
     .listen(PORT || 3000, () => {
         console.log(`localhost:${PORT} is connect`)
     })
