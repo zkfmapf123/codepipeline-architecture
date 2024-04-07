@@ -70,8 +70,26 @@
 | CodeDeployDefault.ECSCanary10Percent3Minutes  | Canary 배포로 새 버전을 배포하고, 각 배포 단계마다 최대 10%의 용량을 사용하여 교체합니다. |
 | CodeDeployDefault.ECSTrafficShift   | 이전 버전과 새 버전 간의 트래픽을 제어하여 점진적으로 새 버전으로 전환합니다.                |
 
+## 2. CodePipeline 구성
+
+```sh
+
+    ## Reference Terraform files
+    infra/code-pipeline.tf
+    infra/ecs-iam.tf
+```
+
+![2](./public/2.png)
+![3](./public/3.png)
+
+- GitHub Connect은 연결하여야 한다
+
 
 ## 귀찮아서 안한거..
 
 - Terraform은 Resource / Service 별로 폴더별로 관리해야 함
 - Terraform Cloud를 붙힌다면 더더욱 좋을듯 함
+
+## Reference
+
+- <a href="https://repost.aws/questions/QU6quBySm3Tmqv1UixHTVRZw/listener-requirements-for-codedeploy-blue-green-deployments"> Blue/Green Target Group Issue </a>

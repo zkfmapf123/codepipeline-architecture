@@ -97,6 +97,6 @@ resource "aws_lb_listener" "ecs_80" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.ecs_tg_green.arn
+    target_group_arn = aws_lb_target_group.ecs_tg_blue.arn
   }
 }
