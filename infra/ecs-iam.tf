@@ -58,6 +58,11 @@ resource "aws_iam_policy" "ecs_task_policy" {
           "s3:GetBucketAcl",
           "s3:GetBucketLocation"
         ]
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : "iam:PassRole",
+        "Resource" : "*"
       }
     ]
   })
@@ -313,6 +318,11 @@ resource "aws_iam_policy" "codepipeline_policy" {
           "codedeploy:GetApplication",
           "ecs:RegisterTaskDefinition"
         ],
+        "Resource" : "*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : "iam:PassRole",
         "Resource" : "*"
       }
     ]

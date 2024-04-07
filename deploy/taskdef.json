@@ -22,5 +22,9 @@
     }
   ],
   "executionRoleArn" : "arn:aws:iam::182024812696:role/ecs-execution-role",
-  "taskRoleArn":"arn:aws:iam::182024812696:role/ecs-execution-role"
+  "taskRoleArn":"arn:aws:iam::182024812696:role/ecs-execution-role",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512"
 }
