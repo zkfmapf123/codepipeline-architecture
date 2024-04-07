@@ -174,16 +174,21 @@ resource "aws_codepipeline" "codepipeline" {
     action {
       category = "Deploy"
       configuration = {
-        "ApplicationName"     = "ecs-codedeploy"
-        "DeploymentGroupName" = "ecs-dep-group"
+        "ApplicationName"                = "ecs-codedeploy"
+        "DeploymentGroupName"            = "ecs-dep-group",
+        "AppSpecTemplateArtifact"        = "build_output"
+        "AppSpecTemplatePath"            = "AppSpec.yml"
+        "TaskDefinitionTemplateArtifact" = "build_output"
+        "TaskDefinitionTemplatePath"     = "task_definition.json"
       }
       input_artifacts = [
         "build_output",
       ]
+
       name             = "codeDeploy"
       output_artifacts = []
       owner            = "AWS"
-      provider         = "CodeDeploy"
+      provider         = "CodeDeployToECS"
       region           = "ap-northeast-2"
       run_order        = 1
       version          = "1"

@@ -81,12 +81,14 @@
 
 ![2](./public/2.png)
 ![3](./public/3.png)
+![4](./public/4.png)
 
 - 참고사항
     - GitHub Connect은 연결하여야 한다
     - CodePipelin.Build 테라폼 빡세다
     - deploy 폴더안에 task_definition.json, AppSpec.yml 을 위치해야 Build Artifacts를 통해서 CodeDeploy가 배포됨
     - <b>BuildArtifacts에 구성파일만 존재하면 CodeDeploy는 쉽게 진행됨</b>
+    - CodeDeploy가 아닌 ECS (Blue/Green) 으로 구성해야 함 (in CodePipeline)
 
     ```yml
     ...
@@ -109,6 +111,7 @@
 - Task Definition, AppSpec 내의 Docker versioning은 추후에 진행해보자...
 - Terrform이 다 구성되고, task_definition, AppSpec 을 자동으로 만들어주게끔 중간에 CLI를 만들어보는것도 좋을듯
 - <b>CodeGuru Service가 Seoul Region에 들어오면 Security Scanning, Reviewer 구성해볼 예정</b>
+- 운동해야되서 AWS Chatbot은 못붙힘 (쉬움)
 
 ## Reference
 
