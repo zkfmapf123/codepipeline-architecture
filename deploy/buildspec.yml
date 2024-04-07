@@ -19,7 +19,6 @@ phases:
   post_build:
     commands:
       - cd ..
-      - aws ecs register-task-definition --cli-input-json file://deploy/taskdef.json
       - ls -lah ./deploy
 
 artifacts:
