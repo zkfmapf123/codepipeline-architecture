@@ -178,7 +178,7 @@ resource "aws_codepipeline" "codepipeline" {
         "DeploymentGroupName"            = "ecs-dep-group",
         "AppSpecTemplateArtifact"        = "build_output"
         "AppSpecTemplatePath"            = "deploy/appspec.yml"
-        "TaskDefinitionTemplatePath"     = "deploy/task_definition.json"
+        "TaskDefinitionTemplatePath"     = "deploy/taskdef.json"
         "TaskDefinitionTemplateArtifact" = "build_output"
       }
       input_artifacts = [

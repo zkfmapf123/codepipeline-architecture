@@ -296,7 +296,8 @@ resource "aws_iam_policy" "codepipeline_policy" {
           "codedeploy:RegisterApplicationRevision",
           "codedeploy:GetDeployment",
           "codedeploy:GetApplicationRevision",
-          "codedeploy:GetApplication"
+          "codedeploy:GetApplication",
+          "ecs:RegisterTaskDefinition"
         ],
         "Resource" : "*"
       }

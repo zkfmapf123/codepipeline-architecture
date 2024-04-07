@@ -89,6 +89,7 @@
     - deploy 폴더안에 task_definition.json, AppSpec.yml 을 위치해야 Build Artifacts를 통해서 CodeDeploy가 배포됨
     - <b>BuildArtifacts에 구성파일만 존재하면 CodeDeploy는 쉽게 진행됨</b>
     - CodeDeploy가 아닌 ECS (Blue/Green) 으로 구성해야 함 (in CodePipeline)
+    - 폴더지정 제대로 하자 에러 많이 남
 
     ```yml
     ...
