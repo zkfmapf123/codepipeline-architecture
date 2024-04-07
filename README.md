@@ -116,9 +116,9 @@
 
 ## 이슈모음
 
-### CodeDeployToECS
+### CodeDeployToECS (Revision Number Issue)
 
-```
+```sh
 Deployment d-X1IRUVC7H외부 링크 failed. Error code: ECS_UPDATE_ERROR; Error message: The ECS service cannot be updated due to an unexpected error: Invalid revision number. Number: latest (Service: AmazonECS; Status Code: 400; Error Code: InvalidParameterException; Request ID: 380efecf-408c-43bb-9aaf-908912e8059a; Proxy: null). Check your ECS service status
 ```
 
@@ -126,6 +126,21 @@ Deployment d-X1IRUVC7H외부 링크 failed. Error code: ECS_UPDATE_ERROR; Error 
 - ECR Registry 의 주소를 제대로 적어주자
 - 그리고 latest가 아닌 VERSION을 명시해야 함
 
+### CodeDeployToECS (Folder Path Issue)
+
+```sh
+An AppSpec file is required, but could not be found in the revision
+```
+- taskdef.json, appspec.yml 파일의 Path가 틀렸음
+- buildoutputs 의 Path를 수정해줘야 함
+
+### CodeDeployToECS (Update TaskDefinition)
+
+```
+Deployment d-RT7QSJLJ4외부 링크 failed. Error code: ECS_UPDATE_ERROR; Error message: The ECS service cannot be updated due to an unexpected error: TaskDefinition is inactive (Service: AmazonECS; Status Code: 400; Error Code: ClientException; Request ID: 616f607e-8f8e-45c5-90af-ebe2149a2c14; Proxy: null). Check your ECS service status
+```
+
+- CodeDeploy 전, TaskDefinition이 등록이 안되어있음
 
 
 ## Reference
