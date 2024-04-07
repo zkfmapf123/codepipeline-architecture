@@ -167,4 +167,26 @@ resource "aws_codepipeline" "codepipeline" {
       }
     }
   }
+
+  stage {
+    name = "Deploy"
+
+    action {
+      category = "Deploy"
+      configuration = {
+        "ApplicationName"     = "ecs-codedeploy"
+        "DeploymentGroupName" = "ecs-dep-group"
+      }
+      input_artifacts = [
+        "build_output",
+      ]
+      name             = "codeDeploy"
+      output_artifacts = []
+      owner            = "AWS"
+      provider         = "CodeDeploy"
+      region           = "ap-northeast-2"
+      run_order        = 1
+      version          = "1"
+    }
+  }
 }

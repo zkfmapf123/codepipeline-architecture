@@ -116,6 +116,17 @@ resource "aws_iam_policy" "ecs_code_deploy_list" {
           "*"
         ]
       },
+      {
+        "Effect" : "Allow",
+        "Resource" : "*",
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:GetObjectVersion",
+          "s3:GetBucketAcl",
+          "s3:GetBucketLocation"
+        ]
+      },
     ]
   })
 }
@@ -274,6 +285,17 @@ resource "aws_iam_policy" "codepipeline_policy" {
         "Action" : [
           "codebuild:BatchGetBuilds",
           "codebuild:StartBuild",
+        ],
+        "Resource" : "*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "codedeploy:CreateDeployment",
+          "codedeploy:GetDeploymentConfig",
+          "codedeploy:RegisterApplicationRevision",
+          "codedeploy:GetDeployment",
+          "codedeploy:GetApplicationRevision"
         ],
         "Resource" : "*"
       }
