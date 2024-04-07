@@ -103,6 +103,11 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = "deploy"
+        Environment = {
+          "type" : "LINUX_CONTAINER"
+          "image"       = "aws/codebuild/amazonlinux2-aarch64-standard:3.0"
+          "computeType" = "BUILD_GENERAL1_SMALL"
+        }
       }
     }
   }
