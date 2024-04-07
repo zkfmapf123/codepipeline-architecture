@@ -3,7 +3,7 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: "arn:aws:ecs:ap-northeast-2:182024812696:task-definition/test-service-container-family:1"
+        TaskDefinition: "arn:aws:ecs:ap-northeast-2:182024812696:task-definition/test-service-container-family:${REVISON}"
         LoadBalancerInfo:
           ContainerName: "test-service-container"
           ContainerPort: 3000

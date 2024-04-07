@@ -19,6 +19,10 @@ phases:
   post_build:
     commands:
       - cd ..
+      - REVISON=$(aws ecs describe-task-definition --task-definition arn:aws:ecs:ap-northeast-2:182024812696:task-definition/test-service-container-family | jq -r '.taskDefinition.revision')
+      - echo "REVISION >> $REVISON"
+      - sed -i 's/${REVISON}/"$REVISON"' ./deploy/appspec.yml
+      - cat ./deploy/appspec.yml
       - ls -lah ./deploy
 
 artifacts:
