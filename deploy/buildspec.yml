@@ -1,42 +1,30 @@
 version: 0.2
 
 # git-credential-helper: no | yes
-# env:
-#   shell: shell-tag
-#   variables:
-#     key: "value"
-#     key: "value"
-#   parameter-store:
-#     key: "value"
-#     key: "value"
-#   exported-variables:
-#     - variable
-#     - variable
-#   secrets-manager:
-#     key: secret-id:json-key:version-stage:version-id
         
 phases:
   install:
-    runtime-versions:
-      nodejs: 20
+    # runtime-versions: ## CI를 Build 내에서 한다면 구성하는게 좋음
+    #   nodejs: 20
     commands:
       - ls -al
-
-  pre_build:
-    commands:
-      - echo "pre-build"
+      - AWS_ACCOUNT=$(echo $CODEBUILD_BUILD_ARN | awk -F':' '{print $5}')
     
   build:
     commands:
-      - echo "build"
+      - aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $AWS_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com
+      - docker build -t ecr_repository -f server/Dockerfile .
+      - docker tag ecr_repository:latest $AWS_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_repository:latest
+      - docker push $AWS_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/ecr_repository:latest
     
   post_build:
     commands:
-      - echo "post_build"
-    
-# artifacts:
+      - ls -lah ./infrastructure
+
+artifacts:
+  files:
+    - "infrastructure/*"
   
-# cache:
-#   paths:
-#     - path
-#     - path
+cache:
+  paths:
+    - "/root/.m2/**/*"
