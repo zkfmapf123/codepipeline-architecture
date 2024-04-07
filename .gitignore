@@ -1,0 +1,7 @@
+## server
+node_modules
+
+## infra
+.terraform
+.terraform.lock.hcl
+terraform.tfstate
