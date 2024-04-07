@@ -12,10 +12,12 @@
           "hostPort": 3000
         }
       ],
-      "environment": {
-        "name": "PORT",
-        "value": "3000"
-      },
+      "environment": [
+        {
+          "name": "PORT",
+          "value": "3000"
+        }
+      ],
       "essential": true
     }
   ]
