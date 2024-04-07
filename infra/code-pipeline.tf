@@ -52,10 +52,66 @@ resource "aws_kms_alias" "s3kmskey_alias" {
 }
 
 ##########################################################
+### Code Build
+##########################################################
+resource "aws_codebuild_project" "build-project" {
+  name                   = "build-project"
+  service_role           = aws_iam_role.codebuild_role.arn
+  build_timeout          = 60
+  concurrent_build_limit = null
+
+  artifacts {
+    name      = "build-project"
+    packaging = "NONE"
+    type      = "CODEPIPELINE"
+  }
+
+  cache {
+    modes = []
+    type  = "NO_CACHE"
+  }
+
+  source {
+    type                = "CODEPIPELINE"                  # 이 예시에서는 소스가 없습니다. 필요에 따라 수정하세요.
+    buildspec           = file("../deploy/buildspec.yml") # 빌드 스펙 파일의 경로를 지정하세요.
+    report_build_status = false
+    insecure_ssl        = false
+    git_clone_depth     = 0
+  }
+
+  environment {
+    compute_type                = "BUILD_GENERAL1_SMALL"                            # 빌드 환경을 선택하세요.
+    image                       = "aws/codebuild/amazonlinux2-aarch64-standard:3.0" # arm64 아키텍처 이미지를 선택하세요.
+    type                        = "ARM_CONTAINER"
+    image_pull_credentials_type = "CODEBUILD"
+
+    environment_variable {
+      name  = "CODEBUILD_CONFIG_AUTO_DISCOVER"
+      type  = "PLAINTEXT"
+      value = "true"
+    }
+  }
+
+  logs_config {
+    cloudwatch_logs {
+      status      = "ENABLED"
+      group_name  = "/aws/codebuild/codebuild-project"
+      stream_name = "build"
+    }
+
+    s3_logs {
+      encryption_disabled = false
+      status              = "DISABLED"
+    }
+  }
+}
+
+
+##########################################################
 ### Code Pipeline 
 ##########################################################
 resource "aws_codepipeline" "codepipeline" {
-  depends_on = [aws_kms_key.s3kmskey]
+  depends_on = [aws_kms_key.s3kmskey, aws_codebuild_project.build-project]
 
   name     = "ecs-pipeline"
   role_arn = aws_iam_role.codepipeline_role.arn
@@ -102,12 +158,7 @@ resource "aws_codepipeline" "codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = "deploy"
-        Environment = {
-          "type" : "LINUX_CONTAINER"
-          "image"       = "aws/codebuild/amazonlinux2-aarch64-standard:3.0"
-          "computeType" = "BUILD_GENERAL1_SMALL"
-        }
+        ProjectName = "aa"
       }
     }
   }

@@ -154,6 +154,74 @@ resource "aws_iam_role_policy_attachment" "ecs_codedeploy_policy_attach_2" {
 }
 
 #####################################################################
+## CodeBuild
+#####################################################################
+resource "aws_iam_role" "codebuild_role" {
+  name = "codebuild-role"
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "codebuild.amazonaws.com"
+        },
+        "Action" : "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "codebuild_policy" {
+  name = "codebuild-policy"
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "VisualEditor0",
+        "Effect" : "Allow",
+        "Action" : "ecr:*",
+        "Resource" : "*"
+      },
+
+      {
+        "Effect" : "Allow",
+        "Resource" : "*",
+        "Action" : [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
+      },
+      {
+        "Effect" : "Allow",
+        "Resource" : "*",
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:GetObjectVersion",
+          "s3:GetBucketAcl",
+          "s3:GetBucketLocation"
+        ]
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "codebuild:CreateReportGroup",
+          "codebuild:CreateReport",
+          "codebuild:UpdateReport",
+          "codebuild:BatchPutTestCases",
+          "codebuild:BatchPutCodeCoverages"
+        ],
+        "Resource" : "*"
+      }
+    ]
+    }
+  )
+}
+
+#####################################################################
 ## CodePipleine 
 #####################################################################
 resource "aws_iam_role" "codepipeline_role" {
